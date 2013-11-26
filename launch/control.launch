@@ -3,4 +3,6 @@
         <remap from="image" to="/usb_cam/image_raw" />
         <param name="autosize" value="true" />
     </node>
+
+    <node pkg="manual_override" name="manual_override" type="manual_override" output="screen" />
 </launch>
