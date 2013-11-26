@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import roslib; roslib.load_manifest('global_control')
+import roslib; roslib.load_manifest('manual_override')
 
 import rospy
 
@@ -13,7 +13,7 @@ class GlobalControl:
     def __init__(self):
         
         self.our_packages = ('movement', 'user_identification', 'voice_control')
-        self.pub_movement_commands = rospy.Publisher('/movement/control', String)
+        self.pub_movement_commands = rospy.Publisher('/movement/commands', String)
         self.pub_voice_commands = rospy.Publisher('/voice_control/commands', String)
         self.pub_user_id_commands = rospy.Publisher('/user_identification/commands', String)
         self.pub_say = rospy.Publisher('/voice_control/say', String)

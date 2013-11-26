@@ -1,20 +1,22 @@
 #add in voice_control_server.py
 def commandCallback(data):
-    if data = 'pause':
-        pause = 1 #GLOBAL?
-        while pause:
-            pass
-    elif data = 'resume':
-        pause = 0
-    elif data = 'restart':
-        #what do?
-        pass
-    elif data = 'stop'
-        #exit?
-        rospy.logwarn('Received STOP, exiting now')
-        exit()
-    else:
-        pass
+if data.data == 'pause':
+    rospy.loginfo('PAUSING')
+    pause = 1
+        
+elif data.data == 'resume':
+    rospy.loginfo('RESUMING')
+    pause = 0
+elif data.data == 'restart':
+    rospy.loginfo('RESTARTING')
+    pause = 0
+    restart = 1
+elif data.data == 'stop':
+    rospy.signal_shutdown('STOP received, exiting immediately')
+    exit()
+else:
+    rospy.loginfo('Ignoring invalid ' + data.data + 'command')
+    pass
 
 def sayCallback(data):
     googleTTS(data)

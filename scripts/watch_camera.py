@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import roslib; roslib.load_manifest('global_control')
+import roslib; roslib.load_manifest('manual_override')
 import rospy
 
 import cv2
