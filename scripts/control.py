@@ -5,8 +5,10 @@ import roslib; roslib.load_manifest('manual_override')
 import rospy
 
 from std_msgs.msg import String
+from face.msg import faceRequests
 from voice_control.srv import *
 from coffee_machine_control.srv import *
+
 
 class GlobalControl:
     
@@ -17,6 +19,7 @@ class GlobalControl:
         self.pub_voice_commands = rospy.Publisher('/voice_control/commands', String)
         self.pub_user_id_commands = rospy.Publisher('/user_identification/commands', String)
         self.pub_say = rospy.Publisher('/voice_control/say', String)
+        self.pub_face_commands = rospy.Publisher('/face/control', faceRequests)
 
     def say(self, args):
 
@@ -96,6 +99,19 @@ class GlobalControl:
             print 'Voice control called: ' + str(success)
         except:
             print 'No response from voice control'
+
+    def face(self, args):
+        faceArgs = args.split()
+        face = faceRequests()
+        face.emotion = faceArgs[1]
+        if len(faceArgs) < 3:
+            face.talking = False
+        elif faceArgs[2] == '1':
+            face.talking = True
+        elif faceArgs[2] == '0':
+            face.talking == False
+
+        self.pub_face_commands.publish(face)
 
     def runner(self):
         
