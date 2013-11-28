@@ -4,5 +4,5 @@
         <param name="autosize" value="true" />
     </node>
 
-    <node pkg="manual_override" name="manual_override" type="manual_override" output="screen" />
+    <node pkg="manual_override" name="manual_override" type="control.py" output="screen" />
 </launch>

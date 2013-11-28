@@ -131,6 +131,6 @@ class GlobalControl:
                  
 
 if __name__ == '__main__':
-    rospy.init_node('global_control')
+    rospy.init_node('manual_override')
     control = GlobalControl()
     control.runner()
