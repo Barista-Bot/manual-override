@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Fri Dec  6 06:32:45 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkWindow" id="window">
@@ -21,7 +20,7 @@
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">ROS IP:</property>
+                <property name="label" translatable="yes">ROS Master URI:</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -30,10 +29,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="ros_ip_entry">
+              <object class="GtkEntry" id="ros_master_uri_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
+                <property name="width_chars">32</property>
                 <property name="caps_lock_warning">False</property>
               </object>
               <packing>
@@ -111,12 +111,14 @@
                         <child>
                           <object class="GtkButton" id="voice_recording_start">
                             <property name="label" translatable="yes">Start</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="has_focus">True</property>
                             <property name="can_default">True</property>
                             <property name="has_default">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
                             <signal name="clicked" handler="voice_recording_start_clicked_cb" swapped="no"/>
                           </object>
                           <packing>
@@ -128,9 +130,11 @@
                         <child>
                           <object class="GtkButton" id="voice_recording_stop">
                             <property name="label" translatable="yes">Stop</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
                             <signal name="clicked" handler="voice_recording_stop_clicked_cb" swapped="no"/>
                           </object>
                           <packing>

@@ -25,11 +25,11 @@ class MainWindow(Gtk.Window):
         GLib.timeout_add(100, self.update_webcam_feed)
 
     def initialise_ros_ip_entry(self):
-        entry = self.builder.get_object("ros_ip_entry")
+        entry = self.builder.get_object("ros_master_uri_entry")
         try:
-            ros_ip = os.environ['ROS_IP']
+            ros_ip = os.environ['ROS_MASTER_URI']
         except KeyError:
-            ros_ip = "127.0.0.1"
+            ros_ip = "NOT SET"
         entry.set_text(ros_ip)
 
     def ros_camera_callback(self, ros_frame):
@@ -54,7 +54,8 @@ class MainWindow(Gtk.Window):
 
     def initialise_webcam_feed(self):
         self.cvBridge = cv_bridge.CvBridge()
-        topic = "/usb_cam/image_raw"
+        self.ros_frame = None
+        topic = "/usb_cam/image_raw/decompressed"
         rospy.Subscriber(topic, sensor_msgs.msg.Image, self.ros_camera_callback, queue_size=1)
 
     def voice_recording_start_clicked_cb(self, *args):
