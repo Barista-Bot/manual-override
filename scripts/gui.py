@@ -4,7 +4,9 @@ import os
 from gi.repository import GLib, Gtk, GdkPixbuf
 import rospy
 import std_srvs.srv
+import std_msgs.msg
 import sensor_msgs.msg
+import coffee_machine_control.srv
 import time
 import cv_bridge
 import numpy as np
@@ -23,6 +25,13 @@ class MainWindow(Gtk.Window):
         self.initialise_ros_ip_entry()
         self.initialise_webcam_feed()
         self.builder.get_object("window").show()
+
+        self.pub_say = rospy.Publisher('/voice_control_server/say', std_msgs.msg.String)
+        self.pub_voice_commands = rospy.Publisher('/voice_control_server/commands', std_msgs.msg.String)
+        self.pub_wit_override = rospy.Publisher('/voice_control_server/wit_override', std_msgs.msg.String)
+
+        rospy.Subscriber('/voice_control_server/speech', std_msgs.msg.String, self.voice_control_last_heard_callback, queue_size=1)
+
         GLib.timeout_add(100, self.update_webcam_feed)
         GLib.timeout_add_seconds(1, self.spinOnce)
         self.spinOnce()
@@ -66,6 +75,52 @@ class MainWindow(Gtk.Window):
         
     def voice_recording_stop_clicked_cb(self, *args):
         self.send_service_command('/voice_control/recording_stop')
+
+    def robot_say_button_clicked_cb(self, *args):
+        textbox = self.builder.get_object('robot_say_textbox')
+        text = textbox.get_text()
+        self.pub_say.publish(text)
+
+    def serve_coffee_button_clicked_cb(self, *args):
+        service = rospy.ServiceProxy('coffee_machine', coffee_machine_control.srv.coffee_machine)
+        resp = service("espresso")
+
+    def interaction_pause_button_clicked_cb(self, *args):
+        self.pub_voice_commands.publish("pause")
+
+    def interaction_resume_button_clicked_cb(self, *args):
+        self.pub_voice_commands.publish("resume")
+
+    def wit_override_test(self, *args):
+        wit_override_say_goodbye()
+
+    def wit_override_say_goodbye(self, *args):
+        self.pub_wit_override.publish("{'intent': 'good_bye'}")
+
+    def wit_override_greet(self, *args):
+        self.pub_wit_override.publish("{'intent': 'hello'}")
+
+    def wit_override_order_espresso(self, *args):
+        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'espresso'}}}")
+
+    def wit_override_order_caramel_latte(self, *args):
+        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'caramel'}}}")
+
+    def wit_override_order_vanilla_latte(self, *args):
+        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'vanilla'}}}")
+
+    def wit_override_order_mocha(self, *args):
+        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'mocha'}}}")
+
+    def wit_override_intent_affirmation(self, *args):
+        self.pub_wit_override.publish("{'intent': 'affirmative'}")
+
+    def wit_override_intent_negation(self, *args):
+        self.pub_wit_override.publish("{'intent': 'negative'}")
+
+    def voice_control_last_heard_callback(self, msg):
+        last_heard_view = self.builder.get_object("last_heard_body")
+        last_heard_view.set_text(msg.data)
 
     def send_service_command(self, service_name):
         try:
