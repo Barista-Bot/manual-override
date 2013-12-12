@@ -116,8 +116,8 @@ class MainWindow(Gtk.Window):
     def user_override_no_button_clicked_cb(self, *args):
         self.pub_wit_override.publish("{'intent': 'negative'}")
 
-    def user_override_espresso_button_clicked_cb(self, *args):
-        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'espresso'}}}")
+    def user_override_christmas_button_clicked_cb(self, *args):
+        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'christmas'}}}")
 
     def user_override_caramel_button_clicked_cb(self, *args):
         self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'caramel'}}}")
@@ -125,8 +125,8 @@ class MainWindow(Gtk.Window):
     def user_override_vanilla_button_clicked_cb(self, *args):
         self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'vanilla'}}}")
 
-    def user_override_mocha_button_clicked_cb(self, *args):
-        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'mocha'}}}")
+    def user_override_chocolate_button_clicked_cb(self, *args):
+        self.pub_wit_override.publish("{'intent': 'request', 'entities': {'Coffee': {'value' : 'chocolate'}}}")
 
     def user_override_name_textbox_activate_cb(self, *args):
         name = self.builder.get_object("user_override_name_textbox").get_text()
